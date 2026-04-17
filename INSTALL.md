@@ -16,7 +16,7 @@ This installs the skill from the Claude Code plugin marketplace. The skill is th
 ### Option 2: Git Clone (Personal/Team)
 
 ```bash
-git clone https://github.com/anthropics/agent-zero /path/to/agent-zero
+git clone https://github.com/howells/agentify /path/to/agent-zero
 cp -r /path/to/agent-zero/skills/agentify ~/.claude/skills/
 ```
 
@@ -49,7 +49,7 @@ Describe your project here.
 
 ## Skills and Tools
 
-- [agentify](https://github.com/anthropics/agent-zero/blob/main/skills/agentify/SKILL.md) — Audit and transform your codebase for agent consumption
+- [agentify](https://github.com/howells/agentify/blob/main/skills/agentify/SKILL.md) — Audit and transform your codebase for agent consumption
 ~~~
 
 ### 2. Point to agentify
@@ -63,7 +63,7 @@ Replace the URL with your local path if you've cloned the repo:
 Or use the remote GitHub URL (Codex can fetch it):
 
 ```markdown
-- [agentify](https://raw.githubusercontent.com/anthropics/agent-zero/main/skills/agentify/SKILL.md) — Audit this codebase
+- [agentify](https://raw.githubusercontent.com/howells/agentify/main/skills/agentify/SKILL.md) — Audit this codebase
 ```
 
 ### 3. Use with Codex
@@ -157,4 +157,4 @@ Codex should cite the SKILL.md content from your AGENTS.md reference.
 
 ## Questions?
 
-See the [full agentify documentation](./skills/agentify/SKILL.md) or the project [README](https://github.com/anthropics/agent-zero).
+See the [full agentify documentation](./skills/agentify/SKILL.md) or the project [README](https://github.com/howells/agentify).

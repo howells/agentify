@@ -5,27 +5,27 @@ description: |
   "make this agentic", "audit agent readiness", "score this codebase", "add MCP",
   "create llms.txt", "improve agent DX", "agentify this project", or any request
   about making a codebase, API, or CLI more consumable by AI agents.
-version: 1.0.0
+argument-hint: "[score|plan|transform] [--dimension=X] [--format=json]"
+allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Agent
+model: sonnet
 license: MIT
-keywords:
-  - agentic
-  - mcp
-  - api-design
-  - cli-design
-  - agent-dx
-  - audit
-  - transformation
-  - llms-txt
-  - agents-md
-  - aeo
-  - data-retrievability
-  - vectors
-  - rag
-  - codex-compatible
-homepage: https://github.com/anthropics/agent-zero
-repository: https://github.com/anthropics/agent-zero
-author: Daniel Howells
 metadata:
+  version: 1.0.0
+  author: Daniel Howells
+  repository: https://github.com/howells/agentify
+  keywords:
+    - agentic
+    - mcp
+    - api-design
+    - cli-design
+    - agent-dx
+    - audit
+    - transformation
+    - llms-txt
+    - agents-md
+    - aeo
+    - data-retrievability
+    - codex-compatible
   agents:
     - context-writer
     - discovery-writer
@@ -77,8 +77,8 @@ For Codex and non-Claude tools, reference this skill in your project's `AGENTS.m
 
 **Git clone** (for personal or team use):
 ```bash
-git clone https://github.com/anthropics/agent-zero /path/to/agent-zero
-cp -r /path/to/agent-zero/skills/agentify ~/.claude/skills/
+git clone https://github.com/howells/agentify /path/to/agentify
+cp -r /path/to/agentify/skills/agentify ~/.claude/skills/
 ```
 
 **Project-specific** (commit to version control):
@@ -162,7 +162,7 @@ Present detected surfaces and applicable dimensions. Then proceed to Phase 1.
 
 <required_reading>
 Read the scoring rubric NOW:
-`${CLAUDE_PLUGIN_ROOT}/skills/agentify/references/scoring-rubric.md`
+`${CLAUDE_SKILL_DIR}/references/scoring-rubric.md`
 </required_reading>
 
 Score each applicable dimension 0-3. For each:
@@ -365,7 +365,7 @@ Each agent receives:
 - Specific task(s) from the plan
 - Relevant codebase files
 - Scoring rubric for their dimension
-- Reference doc: `${CLAUDE_PLUGIN_ROOT}/skills/agentify/references/[dimension].md`
+- Reference doc: `${CLAUDE_SKILL_DIR}/references/[dimension].md`
 
 ### Agent Status Codes
 

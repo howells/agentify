@@ -3,15 +3,14 @@
   "version": "1.0.0",
   "description": "Audit and transform any codebase to be maximally consumable by AI agents. Scores across 11 dimensions, produces findings reports, and executes transformation plans via specialist sub-agents.",
   "skills": "../skills/",
-  "commands": "../commands/",
   "author": {
     "name": "Daniel Howells"
   },
   "license": "MIT",
-  "homepage": "https://github.com/anthropics/agent-zero",
+  "homepage": "https://github.com/howells/agentify",
   "repository": {
     "type": "git",
-    "url": "https://github.com/anthropics/agent-zero.git"
+    "url": "https://github.com/howells/agentify.git"
   },
   "keywords": [
     "agentic",

@@ -19,10 +19,10 @@ entry-point: ./skills/agentify/SKILL.md
 author:
   name: Daniel Howells
 
-homepage: https://github.com/anthropics/agent-zero
+homepage: https://github.com/howells/agentify
 repository:
   type: git
-  url: https://github.com/anthropics/agent-zero.git
+  url: https://github.com/howells/agentify.git
 
 keywords:
   - agentic
@@ -62,5 +62,5 @@ specialist-agents:
 # Distribution URLs (for future registry lookup)
 distribution:
   npm: "@anthropic/agentify"  # Not yet on npm, planned
-  github: "https://github.com/anthropics/agent-zero/releases"
+  github: "https://github.com/howells/agentify/releases"
   claude-code-plugin: "agentify"

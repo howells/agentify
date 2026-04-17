@@ -6,7 +6,7 @@
 
 The main capability in this repository is the `agentify` skill. It audits a target codebase across 11 dimensions, produces a scorecard and findings, and can execute a transformation plan through specialist sub-agents.
 
-This repository also includes supporting agents, commands, templates, and a Next.js documentation site.
+This repository also includes templates and a Next.js documentation site.
 
 ## Primary Capability
 
@@ -26,11 +26,10 @@ Core characteristics:
 - clustered findings with concrete fixes
 - prioritized transformation planning
 - optional execution through specialist agents
-- cross-runtime positioning via `AGENTS.md`, `SKILL.md`, and MCP-aligned patterns
 
 ## Specialist Agents
 
-When `agentify` enters execution mode, it can delegate to specialist agents in [`./agents`](./agents):
+When `agentify` enters execution mode, it delegates to specialist agents in [`./skills/agentify/agents/`](./skills/agentify/agents/):
 
 - `context-writer` - context files such as `AGENTS.md`, `CLAUDE.md`, and editor rules
 - `discovery-writer` - `llms.txt`, `robots.txt`, JSON-LD, and related discovery assets
@@ -47,38 +46,32 @@ When `agentify` enters execution mode, it can delegate to specialist agents in [
 
 High-signal directories:
 
-- [`./skills/agentify`](./skills/agentify) - the main skill and scoring references
-- [`./agents`](./agents) - specialist agent definitions used during transformation
-- [`./commands`](./commands) - slash-command entrypoints such as `/agentify`
-- [`./disciplines`](./disciplines) - longer-form reference material on agent design
-- [`./templates`](./templates) - copyable templates for discovery, MCP, auth, errors, evals, and orchestration
-- [`./src/app`](./src/app) - Next.js application for the docs site
-- [`./src/content/docs`](./src/content/docs) - published documentation content in MDX
-- [`./docs`](./docs) - working docs and internal specs
-- [`./.claude-plugin/plugin.json`](./.claude-plugin/plugin.json) - Claude Code plugin metadata
-- [`./.skill.yaml`](./.skill.yaml) - skill distribution manifest
+- [`./skills/agentify/`](./skills/agentify/) - the main skill, scoring references, and specialist agents
+- [`./disciplines/`](./disciplines/) - longer-form reference material on agent design
+- [`./templates/`](./templates/) - copyable templates for discovery, MCP, auth, errors, evals, and orchestration
+- [`./src/app/`](./src/app/) - Next.js application for the docs site
+- [`./src/content/docs/`](./src/content/docs/) - published documentation content in MDX
+- [`./docs/`](./docs/) - working docs and internal specs
 
 ## Development
 
 ### Prerequisites
 
 - Node.js 20+
-- `pnpm`
+- npm
 
 ### Common Commands
 
 ```bash
-pnpm install
-pnpm dev
-pnpm build
-pnpm start
+npm install
+npm run dev
+npm run build
+npm start
 ```
 
 Notes:
 
 - `postinstall` runs `fumadocs-mdx`
-- the current `package.json` defines `dev`, `build`, and `start`
-- there is no dedicated `test` or `lint` script in `package.json` at the time of writing
 - formatting and linting configuration lives in [`./biome.json`](./biome.json)
 
 ## How To Navigate This Repo
@@ -87,38 +80,26 @@ If you are an agent entering this repository cold, the usual read order is:
 
 1. Read this file for the repo overview and working constraints.
 2. Read [`./skills/agentify/SKILL.md`](./skills/agentify/SKILL.md) for the operative workflow.
-3. Read the relevant reference files under [`./skills/agentify/references`](./skills/agentify/references) for scoring details.
-4. Read [`./commands/agentify.md`](./commands/agentify.md) if you need the slash-command surface.
-5. Read the matching files in [`./agents`](./agents), [`./templates`](./templates), or [`./src/content/docs`](./src/content/docs) depending on the task.
+3. Read the relevant reference files under [`./skills/agentify/references/`](./skills/agentify/references/) for scoring details.
+4. Read the matching files in [`./skills/agentify/agents/`](./skills/agentify/agents/), [`./templates/`](./templates/), or [`./src/content/docs/`](./src/content/docs/) depending on the task.
 
-## Skills Available To Agents
+## Skills
 
 - [`agentify`](./skills/agentify/SKILL.md) - audit and transform codebases for AI agent consumption
 
-## Compatibility Notes
+## Cross-Runtime Compatibility
 
-This repository is intended to be understandable by multiple agent runtimes.
+This repository is designed to be understood by multiple agent runtimes:
 
-- `AGENTS.md` provides root-level project guidance
-- `SKILL.md` provides operational instructions for the `agentify` skill
-- Claude Code can consume the plugin and skill layout directly
-- Codex and other generic runtimes can follow the `AGENTS.md` entrypoint and linked skill files
+| Runtime | Discovery Path |
+|---------|---------------|
+| **Claude Code** | Reads this `AGENTS.md` + loads `skills/agentify/SKILL.md` as a skill |
+| **Codex CLI** | Reads this `AGENTS.md`, follows link to `SKILL.md` for instructions |
+| **Cursor** | Reads this `AGENTS.md` for project context |
+| **GitHub Copilot** | Reads this `AGENTS.md` for project context |
+| **Devin / Jules** | Reads this `AGENTS.md` for project context |
 
-## MCP Status
-
-No standalone MCP server is bundled in this repository today.
-
-`agentify` may recommend or generate MCP surfaces for other codebases, but this repo itself is primarily a skill, template, and documentation distribution repo.
-
-## Dependencies And Stack
-
-Current stack visible in the repository:
-
-- Next.js 16
-- React 19
-- TypeScript 6
-- Tailwind CSS 4
-- Fumadocs for the documentation site
+For any runtime, the entry point is this file. The skill instructions in `SKILL.md` are plain markdown and can be followed by any agent that reads files.
 
 ## Boundaries
 
@@ -132,7 +113,6 @@ When working in this repo:
 ## Key References
 
 - [`./skills/agentify/SKILL.md`](./skills/agentify/SKILL.md)
-- [`./commands/agentify.md`](./commands/agentify.md)
 - [`./docs/arc/specs/agentify-spec.md`](./docs/arc/specs/agentify-spec.md)
 - [`./README.md`](./README.md)
 - [`./INSTALL.md`](./INSTALL.md)

@@ -41,9 +41,7 @@ The 11 dimensions are:
 
 High-signal parts of the repo:
 
-- [`skills/agentify/`](./skills/agentify/) - main skill entrypoint and scoring references
-- [`agents/`](./agents/) - specialist agent definitions used during execution
-- [`commands/`](./commands/) - slash command entrypoints such as `/agentify`
+- [`skills/agentify/`](./skills/agentify/) - main skill entrypoint, scoring references, and specialist agents
 - [`disciplines/`](./disciplines/) - longer-form guidance on agent design topics
 - [`templates/`](./templates/) - reusable templates for discovery, auth, MCP, errors, evals, and orchestration
 - [`src/app/`](./src/app/) - Next.js application for the docs site
