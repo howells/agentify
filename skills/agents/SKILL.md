@@ -10,7 +10,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Agent
 model: sonnet
 license: MIT
 metadata:
-  version: 1.0.0
+  version: 1.0.1
   author: Daniel Howells
   repository: https://github.com/howells/agentify
   keywords:
