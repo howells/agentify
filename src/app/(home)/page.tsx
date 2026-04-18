@@ -23,6 +23,11 @@ const sections = [
   },
 ];
 
+const installCommands = [
+  "npx skills add https://github.com/howells/agentify --skill agentify",
+  "npx skills add https://github.com/howells/agentify --skill agents",
+];
+
 export default function HomePage() {
   return (
     <main className="flex flex-1 bg-fd-background px-6 py-20 text-fd-foreground sm:px-10">
@@ -53,6 +58,31 @@ export default function HomePage() {
             Tooling catalog
           </Link>
         </div>
+
+        <section
+          aria-labelledby="install-skills"
+          className="mt-14 border-y border-fd-border py-6"
+        >
+          <div className="grid gap-6 sm:grid-cols-[12rem_1fr]">
+            <div>
+              <h2
+                id="install-skills"
+                className="text-sm font-medium text-fd-foreground"
+              >
+                Install the skills
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-fd-muted-foreground">
+                Use skills.sh to add the audit workflow and the agent
+                scaffolding workflow to your coding agent.
+              </p>
+            </div>
+            <div className="overflow-hidden rounded-md border border-fd-border bg-fd-muted/30">
+              <pre className="overflow-x-auto p-4 text-sm leading-6 text-fd-foreground">
+                <code>{installCommands.join("\n")}</code>
+              </pre>
+            </div>
+          </div>
+        </section>
 
         <div className="mt-16 border-t border-fd-border">
           {sections.map((section) => (

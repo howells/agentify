@@ -98,6 +98,24 @@ These runtimes also respect the AGENTS.md convention. Follow the Codex instructi
 
 ---
 
+## Install with skills.sh
+
+The Skills CLI can install individual skills from the GitHub repo:
+
+```bash
+npx skills add https://github.com/howells/agentify --skill agentify
+npx skills add https://github.com/howells/agentify --skill agents
+```
+
+This installs the two Agent Surface skills:
+
+- `agentify` - audit and transform codebases for AI agent consumption
+- `agents` - scaffold and update agent systems, tools, workflows, memory, and model routing
+
+See the [skills.sh CLI docs](https://skills.sh/docs/cli) for the current command reference.
+
+---
+
 ## Distribution as .skill Packages
 
 For sharing via tarball or zip:
@@ -109,15 +127,7 @@ For sharing via tarball or zip:
    zip -r agents-1.0.0.skill skills/agents/ -x "*.git*"
    ```
 
-2. **Share the .skill file** with users (e.g., via email, GitHub releases, or a package manager).
-
-3. **Installation** (for a hypothetical `skills.sh` package manager, if it exists):
-   ```bash
-   skills.sh install agentify-1.0.0.skill
-   skills.sh install agents-1.0.0.skill
-   ```
-
-Currently, no official `skills.sh` registry exists. Use Git or manual installation instead.
+2. **Share the .skill file** with users via GitHub releases or another distribution channel.
 
 ---
 
