@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { glossaryTerms, featuredTermIds } from "@/data/glossary";
+import { GlossaryGrid } from "@/components/GlossaryGrid";
 
 /* ── Data ──────────────────────────────────────── */
 
@@ -214,6 +216,33 @@ export default function HomePage() {
                 </p>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Glossary ─────────────────────────────── */}
+      <section className="w-full overflow-hidden border-t border-fd-border">
+        <div className="mx-auto max-w-5xl px-6 py-16 sm:px-10">
+          <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <h2 className="text-lg font-semibold text-fd-foreground">
+              The language of agents
+            </h2>
+            <span className="text-xs text-fd-muted-foreground">
+              plain-language definitions for product & leadership teams
+            </span>
+          </div>
+          <div className="mt-8">
+            <GlossaryGrid
+              terms={glossaryTerms.filter((t) => featuredTermIds.includes(t.id))}
+            />
+          </div>
+          <div className="mt-6">
+            <Link
+              href="/glossary"
+              className="text-sm text-fd-muted-foreground transition-colors hover:text-fd-foreground"
+            >
+              In depth →
+            </Link>
           </div>
         </div>
       </section>
