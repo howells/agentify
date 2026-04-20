@@ -1,5 +1,6 @@
 import { glossaryTerms } from "@/data/glossary";
 import { GlossaryGrid } from "@/components/GlossaryGrid";
+import { SiteHeader } from "@/components/SiteHeader";
 
 export const metadata = {
   title: "Agentic Glossary — Agent Surface",
@@ -9,9 +10,11 @@ export const metadata = {
 
 export default function GlossaryPage() {
   return (
+    <>
+    <SiteHeader />
     <main className="flex flex-col items-center bg-fd-background text-fd-foreground">
       {/* Hero */}
-      <section className="w-full max-w-5xl px-6 pt-24 pb-12 sm:px-10">
+      <section className="w-full max-w-5xl px-6 pt-14 pb-12 sm:px-10">
         <p className="text-xs font-medium uppercase tracking-widest text-fd-muted-foreground font-mono">
           Agentic Glossary
         </p>
@@ -29,8 +32,8 @@ export default function GlossaryPage() {
 
       {/* Terms */}
       <section className="w-full border-t border-fd-border">
-        <div className="mx-auto max-w-5xl px-6 py-12 sm:px-10 overflow-hidden">
-          <GlossaryGrid terms={glossaryTerms} />
+        <div className="mx-auto max-w-5xl px-6 py-12 sm:px-10">
+          <GlossaryGrid terms={glossaryTerms} layout="grid" showFilters />
         </div>
       </section>
 
@@ -51,5 +54,6 @@ export default function GlossaryPage() {
         </div>
       </section>
     </main>
+    </>
   );
 }

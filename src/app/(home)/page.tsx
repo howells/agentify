@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { glossaryTerms, featuredTermIds } from "@/data/glossary";
+import { glossaryTerms } from "@/data/glossary";
 import { GlossaryGrid } from "@/components/GlossaryGrid";
+import { AnimatedScorecard } from "@/components/AnimatedScorecard";
 
 /* ── Data ──────────────────────────────────────── */
 
@@ -73,14 +74,6 @@ const dimensions = [
   },
 ];
 
-const scorecardPreview = [
-  { name: "API Surface", score: 2 },
-  { name: "CLI Design", score: 1 },
-  { name: "MCP Servers", score: 3 },
-  { name: "Discovery", score: 2 },
-  { name: "Auth", score: 1 },
-];
-
 const resources = [
   {
     title: "Approaches",
@@ -115,11 +108,8 @@ export default function HomePage() {
   return (
     <main className="flex flex-col items-center bg-fd-background text-fd-foreground">
       {/* ── Hero ──────────────────────────────────── */}
-      <section className="w-full max-w-5xl px-6 pt-24 pb-16 sm:px-10">
-        <p className="text-xs font-medium uppercase tracking-widest text-fd-muted-foreground">
-          Agent Surface
-        </p>
-        <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-[3.5rem] lg:leading-[1.1]">
+      <section className="w-full max-w-5xl px-6 pt-16 pb-16 sm:px-10">
+        <h1 className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-[3.5rem] lg:leading-[1.1]">
           Make software
           <br />
           legible to agents.
@@ -130,6 +120,9 @@ export default function HomePage() {
           skill that ties them together. Part field guide, part scoring model,
           part workflow.
         </p>
+
+        <AnimatedScorecard />
+
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
             href="/docs"
@@ -141,43 +134,8 @@ export default function HomePage() {
             href="#skill"
             className="inline-flex h-10 items-center rounded-md border border-fd-border px-5 text-sm font-medium text-fd-muted-foreground transition-colors hover:border-fd-ring hover:text-fd-foreground"
           >
-            Install the skill
+            Get the CLI skill
           </Link>
-        </div>
-
-        {/* Scorecard preview — shows what surface produces */}
-        <div
-          aria-hidden="true"
-          className="mt-12 max-w-xs overflow-hidden rounded-lg border border-fd-border font-mono text-xs"
-        >
-          <div className="border-b border-fd-border bg-fd-muted/40 px-4 py-2 text-fd-muted-foreground">
-            surface score
-          </div>
-          <div className="space-y-2 px-4 py-3">
-            {scorecardPreview.map((item) => (
-              <div key={item.name} className="flex items-center gap-3">
-                <span className="w-24 shrink-0 text-fd-muted-foreground">
-                  {item.name}
-                </span>
-                <span className="flex gap-0.5">
-                  {[0, 1, 2].map((i) => (
-                    <span
-                      key={i}
-                      className={`block h-1.5 w-3 rounded-sm ${
-                        i < item.score
-                          ? "bg-fd-foreground/70"
-                          : "bg-fd-border"
-                      }`}
-                    />
-                  ))}
-                </span>
-                <span className="text-fd-muted-foreground">
-                  {item.score}/3
-                </span>
-              </div>
-            ))}
-            <span className="block text-fd-muted-foreground/60">…</span>
-          </div>
         </div>
       </section>
 
@@ -216,33 +174,6 @@ export default function HomePage() {
                 </p>
               </Link>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Glossary ─────────────────────────────── */}
-      <section className="w-full overflow-hidden border-t border-fd-border">
-        <div className="mx-auto max-w-5xl px-6 py-16 sm:px-10">
-          <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-            <h2 className="text-lg font-semibold text-fd-foreground">
-              The language of agents
-            </h2>
-            <span className="text-xs text-fd-muted-foreground">
-              plain-language definitions for product & leadership teams
-            </span>
-          </div>
-          <div className="mt-8">
-            <GlossaryGrid
-              terms={glossaryTerms.filter((t) => featuredTermIds.includes(t.id))}
-            />
-          </div>
-          <div className="mt-6">
-            <Link
-              href="/glossary"
-              className="text-sm text-fd-muted-foreground transition-colors hover:text-fd-foreground"
-            >
-              In depth →
-            </Link>
           </div>
         </div>
       </section>
@@ -288,7 +219,7 @@ export default function HomePage() {
       <section className="w-full border-t border-fd-border">
         <div className="mx-auto max-w-5xl px-6 py-16 sm:px-10">
           <h2 className="text-lg font-semibold text-fd-foreground">
-            Also in the docs
+            Resources
           </h2>
           <div className="mt-4">
             {resources.map((r) => (
@@ -305,6 +236,32 @@ export default function HomePage() {
                 </span>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Glossary teaser ──────────────────────── */}
+      <section className="w-full border-t border-fd-border" style={{ overflowX: "clip" }}>
+        <div className="mx-auto max-w-5xl px-6 py-16 sm:px-10">
+          <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <h2 className="text-lg font-semibold text-fd-foreground">
+              The language of agents
+            </h2>
+            <span className="text-xs text-fd-muted-foreground">
+              plain-language definitions for product & leadership teams
+            </span>
+          </div>
+          <div className="mt-8">
+            <GlossaryGrid terms={glossaryTerms} showFilters={false} />
+          </div>
+          <div className="mt-6">
+            <Link
+              href="/glossary"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-fd-foreground transition-colors hover:text-fd-muted-foreground"
+            >
+              View all 24 terms
+              <span aria-hidden="true">→</span>
+            </Link>
           </div>
         </div>
       </section>
