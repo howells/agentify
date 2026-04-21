@@ -34,14 +34,14 @@ const SPRING = { type: "spring" as const, stiffness: 340, damping: 30 };
 
 // ── Card ─────────────────────────────────────────────────────────────────────
 
-function GlossaryCard({ term, onOpen }: { term: GlossaryTerm; onOpen: (id: string) => void }) {
+function GlossaryCard({ term, onOpen, active }: { term: GlossaryTerm; onOpen: (id: string) => void; active: boolean }) {
   return (
     <motion.button
       layoutId={`card-${term.id}`}
       onClick={() => onOpen(term.id)}
       className="relative flex w-52 h-72 shrink-0 cursor-pointer flex-col overflow-hidden rounded-2xl bg-fd-background text-fd-foreground"
-      style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.07)" }}
-      whileHover={{ y: -6, boxShadow: "0 16px 40px rgba(0,0,0,0.13), 0 0 0 1px rgba(0,0,0,0.07)" }}
+      style={{ boxShadow: active ? "none" : "0 2px 8px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.07)", opacity: active ? 0 : 1 }}
+      whileHover={active ? undefined : { y: -6, boxShadow: "0 16px 40px rgba(0,0,0,0.13), 0 0 0 1px rgba(0,0,0,0.07)" }}
       transition={SPRING}
     >
       <div className="flex-1 flex items-center justify-center overflow-hidden">
@@ -93,12 +93,12 @@ function GlossaryOverlay({ term, onClose }: { term: GlossaryTerm; onClose: () =>
           }}
           transition={SPRING}
         >
-          {/* Dark pattern banner */}
-          <div className="relative h-40 overflow-hidden bg-zinc-950 text-zinc-300">
+          {/* Pattern banner */}
+          <div className="relative h-40 overflow-hidden bg-white text-fd-foreground dark:bg-zinc-900 dark:text-zinc-300">
             <CardPattern category={term.category} />
             <motion.button
               onClick={onClose}
-              className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-white/70 transition-all hover:bg-white/25 hover:text-white hover:scale-110"
+              className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-fd-foreground/10 text-fd-muted-foreground transition-all hover:bg-fd-foreground/15 hover:text-fd-foreground hover:scale-110"
               aria-label="Close"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -203,8 +203,7 @@ export function GlossaryGrid({ terms, showFilters = true, layout = "scroll" }: {
   const [filter, setFilter] = useState(ALL);
 
   const categories = Array.from(new Set(terms.map((t) => t.category)));
-  const visible = (filter === ALL ? terms : terms.filter((t) => t.category === filter))
-    .filter((t) => t.id !== activeId);
+  const visible = filter === ALL ? terms : terms.filter((t) => t.category === filter);
   const activeTerm = terms.find((t) => t.id === activeId) ?? null;
 
   useEffect(() => {
@@ -222,7 +221,7 @@ export function GlossaryGrid({ terms, showFilters = true, layout = "scroll" }: {
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           <AnimatePresence mode="popLayout" initial={false}>
             {visible.map((term) => (
-              <GlossaryCard key={term.id} term={term} onOpen={setActiveId} />
+              <GlossaryCard key={term.id} term={term} onOpen={setActiveId} active={term.id === activeId} />
             ))}
           </AnimatePresence>
         </div>
@@ -239,7 +238,7 @@ export function GlossaryGrid({ terms, showFilters = true, layout = "scroll" }: {
                 />
                 <AnimatePresence mode="popLayout" initial={false}>
                   {visible.map((term) => (
-                    <GlossaryCard key={term.id} term={term} onOpen={setActiveId} />
+                    <GlossaryCard key={term.id} term={term} onOpen={setActiveId} active={term.id === activeId} />
                   ))}
                 </AnimatePresence>
                 <div className="w-6 shrink-0" aria-hidden="true" />
