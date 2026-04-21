@@ -28,27 +28,74 @@ function CardPattern({ id }: { id: string }) {
 
   // Shape: 0=circle 1=rect 2=diamond 3=ring 4=cross 5=dash
   const shape = Math.floor(rand() * 6);
-  const cols = 6 + Math.floor(rand() * 16);
-  const rows = 4 + Math.floor(rand() * 10);
+  const cols = 6 + Math.floor(rand() * 12);
+  const rows = 6 + Math.floor(rand() * 9);
   const size = 1.5 + rand() * 2.5;
-  const opBase = 0.07 + rand() * 0.05;
-  const opRange = 0.06 + rand() * 0.10;
+  const opBase = 0.06 + rand() * 0.06;
+  const opRange = 0.08 + rand() * 0.14;
   const offset = rand() > 0.5;
   const rot = Math.floor(rand() * 4) * 45;
   const rx = rand() * 0.5;
 
-  const dx = 130 / (cols + 1);
-  const dy = 130 / (rows + 1);
+  // Spatial modulation — gives each pattern visual direction
+  const modType = Math.floor(rand() * 5);
+  const modCornerX = rand() > 0.5 ? 0 : 1;
+  const modCornerY = rand() > 0.5 ? 0 : 1;
+  const modDir = Math.floor(rand() * 4);
+  const waveAmp = 1 + rand() * 4;
+  const waveFreq = 3 + rand() * 7;
+
+  const S = 130;
+  const gx = S / (cols + 1);
+  const gy = S / (rows + 1);
   const els: React.ReactNode[] = [];
 
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
-      const xo = offset && r % 2 === 1 ? dx / 2 : 0;
-      const x = dx * (c + 1) + xo;
-      const y = dy * (r + 1);
-      const o = opBase + rand() * opRange;
-      const s = size * (0.8 + rand() * 0.4);
+      const xo = offset && r % 2 === 1 ? gx / 2 : 0;
+      let x = gx * (c + 1) + xo;
+      let y = gy * (r + 1);
+      const nx = x / S;
+      const ny = y / S;
+
+      // Spatial modulation (0–1)
+      let mod: number;
+      switch (modType) {
+        case 0: { // radial — center bright
+          const d = Math.sqrt((nx - 0.5) ** 2 + (ny - 0.5) ** 2);
+          mod = Math.max(0, 1 - d * 2.2);
+          break;
+        }
+        case 1: { // radial — edges bright
+          const d = Math.sqrt((nx - 0.5) ** 2 + (ny - 0.5) ** 2);
+          mod = Math.min(1, d * 2);
+          break;
+        }
+        case 2: // directional gradient
+          mod = [(nx + ny) / 2, (1 - nx + ny) / 2, nx, ny][modDir];
+          break;
+        case 3: { // corner focus
+          const d = Math.sqrt((nx - modCornerX) ** 2 + (ny - modCornerY) ** 2);
+          mod = Math.max(0, 1 - d * 1.4);
+          break;
+        }
+        default: { // stripe bands
+          const freq = 2 + modDir;
+          mod = 0.3 + Math.abs(Math.sin((modDir < 2 ? nx : ny) * Math.PI * freq)) * 0.7;
+          break;
+        }
+      }
+
+      // Wave displacement — breaks the rigid grid
+      x += Math.sin(ny * waveFreq * Math.PI) * waveAmp;
+      y += Math.cos(nx * waveFreq * Math.PI) * waveAmp;
+
+      // Modulated opacity & size — creates depth
+      const o = opBase + opRange * (0.15 + mod * 0.85) * (0.7 + rand() * 0.6);
+      const s = size * (0.35 + mod * 0.65) * (0.8 + rand() * 0.4);
       const k = `${r}-${c}`;
+
+      if (s < 0.3) continue;
 
       switch (shape) {
         case 0:
