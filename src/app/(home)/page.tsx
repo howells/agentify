@@ -115,7 +115,16 @@ export default function HomePage() {
           legible to agents.
         </h1>
         <p className="mt-6 max-w-2xl text-[0.9375rem] leading-7 text-fd-muted-foreground">
-          A practical resource for the surfaces AI agents depend on — APIs,
+          A practical resource by{" "}
+          <a
+            href="https://danielhowells.com"
+            className="text-fd-foreground transition-colors hover:text-fd-muted-foreground"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Daniel Howells
+          </a>{" "}
+          for the surfaces AI agents depend on — APIs,
           CLIs, tools, MCP servers, docs, errors, auth, retrieval, and the
           skill that ties them together. Part field guide, part scoring model,
           part workflow.
@@ -270,7 +279,15 @@ export default function HomePage() {
       <footer className="w-full border-t border-fd-border">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-8 sm:px-10">
           <span className="text-xs text-fd-muted-foreground">
-            Agent Surface
+            Agent Surface by{" "}
+            <a
+              href="https://danielhowells.com"
+              className="transition-colors hover:text-fd-foreground"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Daniel Howells
+            </a>
           </span>
           <a
             href="https://github.com/howells/agentsurface"
