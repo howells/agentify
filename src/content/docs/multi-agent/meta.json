@@ -4,6 +4,7 @@
     "index",
     "orchestration-patterns",
     "supervisor-pattern",
+    "council-pattern",
     "swarm-pattern",
     "human-in-the-loop",
     "memory-patterns",

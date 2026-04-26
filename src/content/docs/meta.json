@@ -6,6 +6,8 @@
     "reference-links",
     "tooling-catalog",
     "agents",
+    "runtime-boundaries",
+    "agentic-ui",
     "---",
     "api-surface",
     "tool-design",

@@ -1,0 +1,153 @@
+---
+title: Agentic UI
+description: Interface patterns for chat, copilots, generative UI, tool progress, approvals, and resumable agent work.
+---
+
+## Summary
+
+Agentic UI is the product surface around agent work. It is not only a chat box. A good agentic interface shows what the agent is doing, what it needs from the user, what it changed, and how the user can stop, correct, approve, or resume the work.
+
+- Use chat for conversation, not as the only control surface.
+- Render tool calls and workflow state as first-class UI events.
+- Separate draft, approval, execution, and completion states.
+- Make cancellation and correction available while work is running.
+- Preserve enough history for trust, audit, and recovery without dumping raw traces into the UI.
+
+## UI Shapes
+
+| Shape | Use when | Avoid when |
+|---|---|---|
+| Chat | The task is conversational or exploratory | The main job is repeated form-like execution |
+| Copilot panel | The agent assists inside an existing workflow | The agent needs full-screen focus or complex review |
+| Command palette | The user knows the action but wants natural-language routing | The action needs long explanation or approval |
+| Generative UI | Output needs custom controls, forms, previews, or charts | Plain text is enough |
+| Workflow status page | Work is long-running, resumable, or multi-step | The response completes inside one request |
+| Review queue | Human approval is part of the product | The action is low-risk and reversible |
+| Background notification | The agent acts asynchronously or proactively | The user expects immediate conversational feedback |
+
+## Event Model
+
+Agentic UI should consume structured events, not scrape prose.
+
+Common event types:
+
+- `message.created`
+- `agent.started`
+- `agent.thinking`
+- `tool.started`
+- `tool.progress`
+- `tool.completed`
+- `tool.failed`
+- `workflow.step.started`
+- `workflow.step.completed`
+- `approval.requested`
+- `approval.resolved`
+- `artifact.created`
+- `agent.completed`
+- `agent.failed`
+
+Every event should carry a stable run ID, timestamp, source, and display-safe summary. Sensitive tool inputs and raw model prompts should stay out of client-visible events unless the product explicitly exposes them.
+
+## Tool Rendering
+
+Do not render all tool calls as generic JSON. The UI should translate tool state into useful product affordances:
+
+- search tools: query, source count, and selected sources
+- write tools: draft preview, diff, and approval controls
+- purchase or send tools: recipient, amount, destination, and confirmation state
+- browser tools: current URL, screenshot, and extracted result
+- code tools: command, exit code, artifact links, and truncated logs
+- retrieval tools: cited documents and confidence signals
+
+For risky tools, split "prepare" from "commit." The agent can draft an email, create an invoice preview, or stage a file change, but the UI should require explicit approval before sending, charging, deleting, or publishing.
+
+## Approval States
+
+Human-in-the-loop flows need durable state, not a modal that disappears on refresh.
+
+Use explicit states:
+
+- `drafted`: the agent prepared a proposed action
+- `needs_approval`: the user or reviewer must decide
+- `approved`: execution may proceed
+- `rejected`: execution must stop or revise
+- `expired`: approval was not granted in time
+- `executed`: the side effect happened
+- `rolled_back`: a compensating action ran
+
+Approval records should include who approved, what they saw, what changed after approval, and which execution used that approval.
+
+## Correction And Steering
+
+Users need ways to steer the agent without starting over:
+
+- edit the goal
+- remove a source
+- change a selected tool
+- revise a draft
+- narrow the scope
+- pause or cancel the run
+- retry a failed step
+- escalate to a human
+
+Correction works best when the underlying workflow has checkpoints. If all state lives only in a model transcript, the UI cannot reliably resume from the right point.
+
+## Context Display
+
+Show enough context for trust:
+
+- active goal
+- selected resources
+- connected account or workspace
+- important constraints
+- tool progress
+- sources used
+- pending approvals
+- final changes
+
+Do not expose internal chain-of-thought, full prompts, credentials, hidden policy text, or raw traces. Summaries and structured event logs are safer product surfaces.
+
+## Streaming
+
+Streaming can carry more than tokens. A mature interface streams:
+
+- assistant text
+- tool progress
+- workflow steps
+- citations as they are selected
+- partial artifacts
+- warnings and recoverable errors
+- approval requests
+
+Token streaming should not block structured state updates. If the final answer is still generating, the UI should still be able to show that a tool failed, a source was selected, or approval is needed.
+
+## Failure Modes
+
+- **Mystery work:** The UI says "thinking" while the agent calls tools or changes state. Show specific, safe progress.
+- **Invisible side effects:** The agent mutates data without a preview or durable audit trail. Stage and approve risky actions.
+- **Chat-only control:** The user must type corrections that should be buttons, forms, or diff controls.
+- **Lost approvals:** A refresh or reconnect loses the approval request. Store approval state server-side.
+- **Trace leakage:** The UI exposes internal prompts, credentials, or private tool payloads. Use display-safe event summaries.
+- **No recovery path:** A tool fails and the only option is to restart. Offer retry, revise, skip, or escalate.
+
+## Checklist
+
+Before shipping an agentic UI, verify:
+
+- every run has a visible status
+- every risky action has a preview and approval boundary
+- tool calls have product-specific renderers where useful
+- cancellation works during long-running work
+- reconnecting restores state
+- errors are actionable
+- sources and artifacts are accessible after completion
+- logs and traces exist outside the UI for debugging
+- the UI distinguishes draft output from executed side effects
+
+## Related
+
+- [Human-in-the-Loop](/docs/multi-agent/human-in-the-loop)
+- [External-App Routing](/docs/cookbook/external-app-routing)
+- [Notification to Conversation](/docs/cookbook/notification-to-conversation)
+- [Tool Design](/docs/tool-design)
+- [Runtime Boundaries](/docs/runtime-boundaries)
